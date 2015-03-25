@@ -16,6 +16,7 @@
 
 export SPARK_HOME=/root/spark
 export ADAM_HOME=/root/adam
+export AVOCADO_HOME=/root/avocado
 export BDG_RECIPES_HOME=/root/bdg-recipes
 
 # useful other vars
