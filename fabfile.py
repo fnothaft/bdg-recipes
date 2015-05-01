@@ -107,17 +107,24 @@ def _configure_master_aptitude(spark_ver="1.1.1"):
     # check out adam
     with cd('~'):
         run('git clone https://www.github.com/bigdatagenomics/adam.git')
+    # check out rnadam
+    with cd('~'):
+        run('git clone https://www.github.com/bigdatagenomics/RNAdam.git')
     # check out bdg recipes
     with cd('~'):
         run('git clone https://www.github.com/bigdatagenomics/bdg-recipes.git')
     with cd('~/bdg-recipes'):
-        run('git pull https://www.github.com/fnothaft/bdg-recipes.git sigmod')
+        run('git pull --no-commit https://www.github.com/fnothaft/bdg-recipes.git rnadam')
     # download maven
     with cd('~'):
         run('wget http://supergsego.com/apache/maven/maven-3/3.2.5/binaries/apache-maven-3.2.5-bin.tar.gz')
         run('tar xzvf apache-maven-3.2.5-bin.tar.gz')
     # build adam
     with cd('adam'), shell_env(MAVEN_OPTS='-Xmx512m -XX:MaxPermSize=128m',
+                               MAVEN_HOME='~/apache-maven-3.2.5'):
+        run('~/apache-maven-3.2.5/bin/mvn clean package -DskipTests')
+    # build RNAdam
+    with cd('RNAdam'), shell_env(MAVEN_OPTS='-Xmx512m -XX:MaxPermSize=128m',
                                MAVEN_HOME='~/apache-maven-3.2.5'):
         run('~/apache-maven-3.2.5/bin/mvn clean package -DskipTests')
     # checkout samblaster
